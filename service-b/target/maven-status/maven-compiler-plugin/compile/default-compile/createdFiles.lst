@@ -1,0 +1,11 @@
+com\example\serviceb\model\ConversionRequest.class
+com\example\serviceb\model\ConversionHistory.class
+com\example\serviceb\config\WebConfig.class
+com\example\serviceb\service\ConversionService.class
+com\example\serviceb\model\ConversionHistory$ConversionType.class
+com\example\serviceb\controller\HealthController.class
+com\example\serviceb\model\ConversionResponse.class
+com\example\serviceb\model\SimpleConversionResponse.class
+com\example\serviceb\repository\ConversionHistoryRepository.class
+com\example\serviceb\controller\ConversionController.class
+com\example\serviceb\ServiceBApplication.class

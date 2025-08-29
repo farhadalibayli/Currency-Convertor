@@ -1,0 +1,10 @@
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\config\WebConfig.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\controller\ConversionController.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\controller\HealthController.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\model\ConversionHistory.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\model\ConversionRequest.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\model\ConversionResponse.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\model\SimpleConversionResponse.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\repository\ConversionHistoryRepository.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\service\ConversionService.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-b\src\main\java\com\example\serviceb\ServiceBApplication.java
