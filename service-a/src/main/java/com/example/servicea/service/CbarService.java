@@ -2,6 +2,7 @@ package com.example.servicea.service;
 
 import com.example.servicea.model.CbarResponse;
 import com.example.servicea.model.Currency;
+import com.example.servicea.service.CurrencyCacheService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CbarService {
@@ -25,12 +27,14 @@ public class CbarService {
     
     private final RestTemplate restTemplate;
     private final XmlMapper xmlMapper;
+    private final CurrencyCacheService cacheService;
     private static final String CBAR_BASE_URL = "https://cbar.az/currencies";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     
-    public CbarService() {
+    public CbarService(CurrencyCacheService cacheService) {
         this.restTemplate = new RestTemplate();
         this.xmlMapper = new XmlMapper();
+        this.cacheService = cacheService;
         // Configure XML mapper to use UTF-8
         this.xmlMapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         this.xmlMapper.configure(com.fasterxml.jackson.core.JsonParser.Feature.ALLOW_COMMENTS, true);
@@ -40,8 +44,32 @@ public class CbarService {
     }
     
     public List<Currency> getCurrencies(String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        
+        // First, check if data is available in cache
+        if (cacheService.isCached(localDate)) {
+            log.info("Currency data found in cache for date: {}", date);
+            return cacheService.getFromCache(localDate);
+        }
+        
+        // If not in cache, fetch from CBAR API
+        log.info("Currency data not found in cache, fetching from CBAR API for date: {}", date);
+        List<Currency> currencies = fetchFromCbar(date);
+        
+        // Save to cache for future use
+        if (!currencies.isEmpty()) {
+            cacheService.saveToCache(localDate, currencies);
+        }
+        
+        return currencies;
+    }
+    
+    /**
+     * Fetch currencies from CBAR API
+     */
+    private List<Currency> fetchFromCbar(String date) {
         try {
-            log.info("Fetching currencies for date: {}", date);
+            log.info("Fetching currencies from CBAR API for date: {}", date);
             
             // Format date for CBAR API (dd.MM.yyyy)
             LocalDate localDate = LocalDate.parse(date);
@@ -105,13 +133,37 @@ public class CbarService {
                 }
             }
             
-            log.info("Successfully parsed {} currencies with exchange rates", currencies.size());
+            log.info("Successfully parsed {} currencies with exchange rates from CBAR API", currencies.size());
             return currencies;
             
         } catch (Exception e) {
-            log.error("Error fetching currencies for date {}: {}", date, e.getMessage(), e);
+            log.error("Error fetching currencies from CBAR API for date {}: {}", date, e.getMessage(), e);
             throw new RuntimeException("Failed to fetch currencies from CBAR: " + e.getMessage(), e);
         }
+    }
+    
+    /**
+     * Get a specific currency rate, checking cache first
+     */
+    public Currency getCurrencyRate(String date, String currencyCode) {
+        LocalDate localDate = LocalDate.parse(date);
+        
+        // First, check if the specific currency is available in cache
+        Optional<Currency> cachedCurrency = cacheService.getFromCache(localDate, currencyCode);
+        if (cachedCurrency.isPresent()) {
+            log.info("Currency {} found in cache for date: {}", currencyCode, date);
+            return cachedCurrency.get();
+        }
+        
+        // If not in cache, fetch all currencies and cache them
+        log.info("Currency {} not found in cache, fetching all currencies from CBAR API for date: {}", currencyCode, date);
+        List<Currency> currencies = getCurrencies(date);
+        
+        // Find the specific currency
+        return currencies.stream()
+                .filter(c -> c.getCode().equalsIgnoreCase(currencyCode))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Currency not found: " + currencyCode));
     }
     
     /**

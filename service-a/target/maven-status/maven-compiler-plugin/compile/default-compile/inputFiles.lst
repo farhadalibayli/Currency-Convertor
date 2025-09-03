@@ -2,8 +2,12 @@ C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\ser
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\controller\CurrencyController.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\controller\HealthController.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\exception\GlobalExceptionHandler.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\model\CachedCurrency.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\model\CbarResponse.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\model\Currency.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\model\RateResponse.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\repository\CachedCurrencyRepository.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\service\CacheCleanupService.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\service\CbarService.java
+C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\service\CurrencyCacheService.java
 C:\Users\ASUS\Desktop\Currency-Convertor\service-a\src\main\java\com\example\servicea\ServiceAApplication.java
